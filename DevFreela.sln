@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevFreela.API", "DevFreela.API\DevFreela.API.csproj", "{7E2EB31C-BD7B-4F54-A944-D626F1748705}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevFreela.Core", "DevFreela.Core\DevFreela.Core.csproj", "{CE1DEB60-4B8A-4498-8D4B-F618C9EE5A17}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{7E2EB31C-BD7B-4F54-A944-D626F1748705}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E2EB31C-BD7B-4F54-A944-D626F1748705}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E2EB31C-BD7B-4F54-A944-D626F1748705}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE1DEB60-4B8A-4498-8D4B-F618C9EE5A17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE1DEB60-4B8A-4498-8D4B-F618C9EE5A17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE1DEB60-4B8A-4498-8D4B-F618C9EE5A17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE1DEB60-4B8A-4498-8D4B-F618C9EE5A17}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
