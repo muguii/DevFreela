@@ -2,7 +2,7 @@
 
 namespace DevFreela.Core.Entities
 {
-    public class Projects : BaseEntity
+    public class Project : BaseEntity
     {
         public string Title { get; private set; }
         public string Description { get; private set; }
@@ -15,7 +15,7 @@ namespace DevFreela.Core.Entities
         public ProjectStatusEnum Status { get; private set; }
         public List<ProjectComment> Comments { get; private set; }
 
-        public Projects(string title, string description, int idClient, int idFreelancer, decimal totalCost)
+        public Project(string title, string description, int idClient, int idFreelancer, decimal totalCost)
         {
             Title = title;
             Description = description;
@@ -26,6 +26,14 @@ namespace DevFreela.Core.Entities
             Status = ProjectStatusEnum.Created;
 
             Comments = new List<ProjectComment>();
+        }
+
+        public void Cancel()
+        {
+            if (Status == ProjectStatusEnum.InProgress)
+            {
+                Status = ProjectStatusEnum.Canceled;
+            }
         }
     }
 }

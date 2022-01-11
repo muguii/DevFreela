@@ -11,8 +11,8 @@
             CreatedAt = DateTime.Now;
 
             Skills = new List<UserSkill>();
-            OwnedProjects = new List<Projects>();
-            FreelanceProjects = new List<Projects>();
+            OwnedProjects = new List<Project>();
+            FreelanceProjects = new List<Project>();
         }
 
         public string FullName { get; private set; }
@@ -21,7 +21,7 @@
         public DateTime CreatedAt { get; private set; }
         public bool Active { get; private set; }
         public List<UserSkill> Skills { get; private set; }
-        public List<Projects> OwnedProjects { get; private set; }
-        public List<Projects> FreelanceProjects { get; private set; }
+        public List<Project> OwnedProjects { get; private set; }
+        public List<Project> FreelanceProjects { get; private set; }
     }
 }
