@@ -2,8 +2,8 @@
 {
     public class CreateCommentInputModel
     {
-        public string Content { get; private set; }
-        public int IdProject { get; private set; }
+        public string Content { get; set; }
+        public int IdProject { get; set; }
         public int IdUser { get; set; }
     }
 }

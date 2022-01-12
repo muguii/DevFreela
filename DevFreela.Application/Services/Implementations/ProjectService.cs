@@ -17,16 +17,22 @@ namespace DevFreela.Application.Services.Implementations
 
         public List<ProjectViewModel> GetAll(string query)
         {
-            return dbContext.Projects.Select(project => new ProjectViewModel(project.Title, project.CreatedAt)).ToList();
+            return dbContext.Projects.Select(project => new ProjectViewModel(project.Id, project.Title, project.CreatedAt)).ToList();
         }
 
         public ProjectDetailsViewModel GetByid(int id)
         {
             Project project = dbContext.Projects.SingleOrDefault(project => project.Id == id);
+
+            if (project == null)
+            {
+                return null;
+            }
+
             return new ProjectDetailsViewModel(project.Id, project.Title, project.Description, project.TotalCost, project.StartedAt, project.FinishedAt);
         }
 
-        public int Create(NewProjectInputModel inputModel)
+        public int Create(CreateProjectInputModel inputModel)
         {
             Project project = new Project(inputModel.Title, inputModel.Description, inputModel.IdClient, inputModel.IdFreelancer, inputModel.TotalCost);
             dbContext.Projects.Add(project);
@@ -36,7 +42,9 @@ namespace DevFreela.Application.Services.Implementations
 
         public void Update(UpdateProjectInputModel inputModel)
         {
-            throw new NotImplementedException();
+            Project project = dbContext.Projects.SingleOrDefault(project => project.Id == inputModel.Id);
+
+            project.Update(inputModel.Title, inputModel.Description, inputModel.TocalCost);
         }
 
         public void Delete(int id)
@@ -53,12 +61,14 @@ namespace DevFreela.Application.Services.Implementations
 
         public void Start(int id)
         {
-            throw new NotImplementedException();
+            Project project = dbContext.Projects.SingleOrDefault(project => project.Id == id);
+            project.Start();
         }
 
         public void Finish(int id)
         {
-            throw new NotImplementedException();
+            Project project = dbContext.Projects.SingleOrDefault(project => project.Id == id);
+            project.Finish();
         }
     }
 }
