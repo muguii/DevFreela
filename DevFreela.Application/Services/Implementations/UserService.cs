@@ -30,7 +30,9 @@ namespace DevFreela.Application.Services.Implementations
         public int Create(CreateUserInputModel inputModel)
         {
             User user = new User(inputModel.FullName, inputModel.Email, inputModel.BirthDate);
+
             dbContext.Users.Add(user);
+            dbContext.SaveChanges();
 
             return user.Id;
         }
