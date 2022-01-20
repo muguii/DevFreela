@@ -1,32 +1,33 @@
 ﻿using DevFreela.Application.ViewModels;
 using DevFreela.Core.Entities;
-using DevFreela.Infrastructure.Persistence;
+using DevFreela.Core.Repositories;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace DevFreela.Application.Queries.GetProjectById
 {
     public class GetProjectByIdQueryHandler : IRequestHandler<GetProjectByIdQuery, ProjectDetailsViewModel>
     {
-        private readonly DevFreelaDbContext _dbContext;
+        private readonly IProjectRepository _projectRepository;
 
-        public GetProjectByIdQueryHandler(DevFreelaDbContext dbContext)
+        public GetProjectByIdQueryHandler(IProjectRepository projectRepository)
         {
-            _dbContext = dbContext;
+            _projectRepository = projectRepository;
         }
 
         public async Task<ProjectDetailsViewModel> Handle(GetProjectByIdQuery request, CancellationToken cancellationToken)
         {
-            Project project = await _dbContext.Projects.Include(project => project.Client)
-                                                .Include(project => project.Freelancer)
-                                                .SingleOrDefaultAsync(project => project.Id == request.Id);
+            Project project = await _projectRepository.GetByIdAsync(request.Id);
 
             if (project == null)
             {
                 return null;
             }
 
-            return new ProjectDetailsViewModel(project.Id, project.Title, project.Description, project.TotalCost, project.StartedAt, project.FinishedAt, project.Client.FullName, project.Freelancer.FullName);
+            ProjectDetailsViewModel projectViewModel = new ProjectDetailsViewModel(project.Id, project.Title, project.Description, 
+                                                                                   project.TotalCost, project.StartedAt, project.FinishedAt, 
+                                                                                   project.Client.FullName, project.Freelancer.FullName);
+
+            return projectViewModel;
         }
     }
 }
