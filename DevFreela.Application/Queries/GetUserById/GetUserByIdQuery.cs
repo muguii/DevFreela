@@ -9,7 +9,7 @@ namespace DevFreela.Application.Queries.GetUserById
 
         public GetUserByIdQuery(int id)
         {
-            Id = Id;
+            Id = id;
         }
     }
 }

@@ -8,12 +8,14 @@ namespace DevFreela.Application.Commands.CreateUser
         public string Password { get; set; }
         public string Email { get; set; }
         public DateTime BirthDate { get; set; }
+        public string Role { get; set; }
 
-        public CreateUserCommand(string fullName, string email, DateTime birthDate)
+        public CreateUserCommand(string fullName, string email, DateTime birthDate, string role)
         {
             FullName = fullName;
             Email = email;
             BirthDate = birthDate;
+            Role = role;
         }
     }
 }
