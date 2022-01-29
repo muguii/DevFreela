@@ -22,8 +22,6 @@ namespace DevFreela.Application.Commands.CreateUser
 
             User user = new User(request.FullName, request.Email, request.BirthDate, passwordHash, request.Role);
 
-
-
             await _userRepository.AddAsync(user);
 
             return user.Id;

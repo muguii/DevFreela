@@ -1,11 +1,10 @@
-﻿using DevFreela.Application.ViewModels;
-using DevFreela.Core.Entities;
+﻿using DevFreela.Core.Entities;
 using DevFreela.Core.Repositories;
 using MediatR;
 
 namespace DevFreela.Application.Queries.GetProjectById
 {
-    public class GetProjectByIdQueryHandler : IRequestHandler<GetProjectByIdQuery, ProjectDetailsViewModel>
+    public class GetProjectByIdQueryHandler : IRequestHandler<GetProjectByIdQuery, Project>
     {
         private readonly IProjectRepository _projectRepository;
 
@@ -14,7 +13,7 @@ namespace DevFreela.Application.Queries.GetProjectById
             _projectRepository = projectRepository;
         }
 
-        public async Task<ProjectDetailsViewModel> Handle(GetProjectByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Project> Handle(GetProjectByIdQuery request, CancellationToken cancellationToken)
         {
             Project project = await _projectRepository.GetByIdAsync(request.Id);
 
@@ -23,11 +22,7 @@ namespace DevFreela.Application.Queries.GetProjectById
                 return null;
             }
 
-            ProjectDetailsViewModel projectViewModel = new ProjectDetailsViewModel(project.Id, project.Title, project.Description, 
-                                                                                   project.TotalCost, project.StartedAt, project.FinishedAt, 
-                                                                                   project.Client.FullName, project.Freelancer.FullName);
-
-            return projectViewModel;
+            return project;
         }
     }
 }

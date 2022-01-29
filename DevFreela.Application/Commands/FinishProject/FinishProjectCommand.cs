@@ -8,7 +8,7 @@ namespace DevFreela.Application.Commands.FinishProject
 
         public FinishProjectCommand(int id)
         {
-            Id = Id;
+            Id = id;
         }
     }
 }

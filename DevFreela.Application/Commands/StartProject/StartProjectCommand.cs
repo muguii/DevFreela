@@ -8,7 +8,7 @@ namespace DevFreela.Application.Commands.StartProject
 
         public StartProjectCommand(int id)
         {
-            Id = Id;
+            Id = id;
         }
     }
 }
