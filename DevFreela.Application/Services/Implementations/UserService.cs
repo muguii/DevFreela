@@ -21,7 +21,11 @@ namespace DevFreela.Application.Services.Implementations
         public UserViewModel GetById(int id)
         {
             var user = _dbContext.Users.SingleOrDefault(user => user.Id == id);
-            return new UserViewModel(user.FullName, user.Email, user.BirthDate, user.Active);
+
+            if (user == null)
+                return null;
+
+            return new UserViewModel(user.FullName, user.Email);
         }
 
         public int Create(CreateUserInputModel userInputModel)
