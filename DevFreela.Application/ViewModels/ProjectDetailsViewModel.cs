@@ -10,14 +10,18 @@ namespace DevFreela.Application.ViewModels
         public decimal TotalCost { get; private set; }
         public DateTime? StartedAt { get; private set; }
         public DateTime? FinishAt { get; private set; }
+        public string ClientFullName { get; private set; }
+        public string FreelancerFullName { get; private set; }
 
-        public ProjectDetailsViewModel(string title, string description, decimal totalCost, DateTime? startedAt, DateTime? finishAt)
+        public ProjectDetailsViewModel(string title, string description, decimal totalCost, DateTime? startedAt, DateTime? finishAt, string clientFullName, string freelancerFullName)
         {
             Title = title;
             Description = description;
             TotalCost = totalCost;
             StartedAt = startedAt;
             FinishAt = finishAt;
+            ClientFullName = clientFullName;
+            FreelancerFullName = freelancerFullName;
         }
     }
 }
