@@ -1,6 +1,8 @@
-﻿namespace DevFreela.Application.InputModels
+﻿using MediatR;
+
+namespace DevFreela.Application.Commands.UpdateProject
 {
-    public class UpdateProjectInputModel
+    public class UpdateProjectCommand : IRequest<Unit>
     {
         public int Id { get; private set; }
         public string Title { get; private set; }

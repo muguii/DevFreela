@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DevFreela.Application.ViewModels
+namespace DevFreela.Application.Queries.GetUserById
 {
     public class UserViewModel
     {
