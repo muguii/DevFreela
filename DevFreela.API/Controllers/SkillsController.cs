@@ -1,6 +1,8 @@
 ﻿using DevFreela.Application.Queries.GetAllSkills;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using System.Threading.Tasks;
 
 namespace DevFreela.API.Controllers
@@ -16,6 +18,7 @@ namespace DevFreela.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "client,freelancer")]
         public async Task<IActionResult> Get()
         {
             return Ok(await _mediator.Send(new GetAllSkillsQuery()));
