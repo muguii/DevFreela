@@ -29,7 +29,7 @@ namespace DevFreela.Application.Commands.LoginUser
 
             var jwtToken = _authService.GenerateJwtToken(request.Email, user.Role);
 
-            return new LoginUserViewModel(user.Email, _authService.GenerateJwtToken(request.Email, user.Role));
+            return new LoginUserViewModel(user.Email, jwtToken);
         }
     }
 }
