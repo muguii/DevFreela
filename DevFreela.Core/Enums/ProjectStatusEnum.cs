@@ -6,6 +6,7 @@
         InProgress = 1,
         Suspended = 2,
         Cancelled = 3,
-        Finish = 4
+        Finish = 4,
+        PaymentPending = 5
     }
 }

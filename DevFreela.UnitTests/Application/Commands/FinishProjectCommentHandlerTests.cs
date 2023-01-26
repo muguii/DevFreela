@@ -1,8 +1,10 @@
 ﻿using DevFreela.Application.Commands.DeleteProject;
 using DevFreela.Application.Commands.FinishProject;
+using DevFreela.Core.DTOs;
 using DevFreela.Core.Entities;
 using DevFreela.Core.Enums;
 using DevFreela.Core.Repositories;
+using DevFreela.Core.Services;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -23,10 +25,13 @@ namespace DevFreela.UnitTests.Application.Commands
             var project = new Project("Titulo", "Descricao", 1, 2, 10000M);
 
             var projectRepositoryMock = new Mock<IProjectRepository>();
+            var paymentServiceMock = new Mock<IPaymentService>();
+
             projectRepositoryMock.Setup(pr => pr.GetByIdAsync(It.Is<int>(id => id == mockId)).Result).Returns(project);
+            paymentServiceMock.Setup(ps => ps.ProcessPayment(It.IsAny<PaymentInfoDTO>()).Result).Returns(true);
 
             var finishProjectCommand = new FinishProjectCommand(mockId);
-            var finishProjectCommandHandler = new FinishProjectCommandHandler(projectRepositoryMock.Object);
+            var finishProjectCommandHandler = new FinishProjectCommandHandler(projectRepositoryMock.Object, paymentServiceMock.Object);
 
             // Act
             project.Start();
@@ -51,10 +56,13 @@ namespace DevFreela.UnitTests.Application.Commands
             var project = new Project("Titulo", "Descricao", 1, 2, 10000M);
 
             var projectRepositoryMock = new Mock<IProjectRepository>();
+            var paymentServiceMock = new Mock<IPaymentService>();
+
             projectRepositoryMock.Setup(pr => pr.GetByIdAsync(It.Is<int>(id => id == mockId)).Result).Returns(project);
+            paymentServiceMock.Setup(ps => ps.ProcessPayment(It.IsAny<PaymentInfoDTO>()).Result).Returns(true);
 
             var finishProjectCommand = new FinishProjectCommand(mockId);
-            var finishProjectCommandHandler = new FinishProjectCommandHandler(projectRepositoryMock.Object);
+            var finishProjectCommandHandler = new FinishProjectCommandHandler(projectRepositoryMock.Object, paymentServiceMock.Object);
 
             // Act
             await finishProjectCommandHandler.Handle(finishProjectCommand, new System.Threading.CancellationToken());

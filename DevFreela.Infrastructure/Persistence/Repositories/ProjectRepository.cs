@@ -62,7 +62,7 @@ namespace DevFreela.Infrastructure.Persistence.Repositories
             using (var sqlConnection = new SqlConnection(_connectionString))
             {
                 await sqlConnection.OpenAsync();
-                await sqlConnection.ExecuteAsync("UPDATE Project SET Status = @status, StartedAt = @StartedAt WHERE Id = @Id", new { status = project.Status, startedat = project.StartedAt, project.Id });
+                await sqlConnection.ExecuteAsync("UPDATE Projects SET Status = @status, StartedAt = @StartedAt WHERE Id = @Id", new { status = project.Status, startedat = project.StartedAt, project.Id });
             }
 
             #endregion
