@@ -43,7 +43,7 @@ namespace DevFreela.UnitTests.Application.Queries
             User user = null;
 
             var userRepositoryMock = new Mock<IUserRepository>();
-            userRepositoryMock.Setup(ur => ur.GetByIdAsync(It.Is<int>(id => id == mockId)).Result).Returns(user);
+            userRepositoryMock.Setup(ur => ur.GetByIdAsync(It.Is<int>(id => id == mockId))).ReturnsAsync(user);
 
             var getUserByIdQuery = new GetUserByIdQuery(mockId);
             var getUserByIdQueryHandler = new GetUserByIdQueryHandler(userRepositoryMock.Object);

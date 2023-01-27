@@ -75,8 +75,8 @@ namespace DevFreela.UnitTests.Application.Commands
 
             authServiceMock.Setup(auth => auth.ComputeSha256Hash(It.Is<string>(pw => pw == loginUserCommand.Password))).Returns(passwordHashMock);
 
-            userRepositoryMock.Setup(ur => ur.GetByEmailAndPasswordAsync(It.Is<string>(email => email == emailMock), It.Is<string>(pwHash => pwHash == passwordHashMock)).Result)
-                              .Returns(user);
+            userRepositoryMock.Setup(ur => ur.GetByEmailAndPasswordAsync(It.Is<string>(email => email == emailMock), It.Is<string>(pwHash => pwHash == passwordHashMock)))
+                              .ReturnsAsync(user);
 
             var loginUserCommandHandler = new LoginUserCommandHandler(authServiceMock.Object, userRepositoryMock.Object);
 

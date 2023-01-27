@@ -45,7 +45,7 @@ namespace DevFreela.UnitTests.Application.Queries
             Project project = null;
 
             var projectRepositoryMock = new Mock<IProjectRepository>();
-            projectRepositoryMock.Setup(pr => pr.GetByIdAsync(It.Is<int>(id => id == projectId)).Result).Returns(project);
+            projectRepositoryMock.Setup(pr => pr.GetByIdAsync(It.Is<int>(id => id == projectId))).ReturnsAsync(project);
 
             var getProjectByIdQuery = new GetProjectByIdQuery(projectId);
             var getProjectByIdQueryHandler = new GetProjectByIdQueryHandler(projectRepositoryMock.Object);
