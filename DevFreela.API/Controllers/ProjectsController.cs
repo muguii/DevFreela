@@ -95,10 +95,7 @@ namespace DevFreela.API.Controllers
             finishProjectCommand.Id = id;
             var result = await _mediator.Send(finishProjectCommand);
 
-            if (!result)
-                return BadRequest("O pagamento não foi processado.");
-
-            return NoContent();
+            return Accepted();
         }
     }
 }

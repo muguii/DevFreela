@@ -41,9 +41,14 @@ namespace DevFreela.Core.Entities
             }
         }
 
+        public void SetPaymentPending()
+        {
+            Status = ProjectStatusEnum.PaymentPending;
+        }
+
         public void Finish()
         {
-            if (Status == ProjectStatusEnum.InProgress)
+            if (Status == ProjectStatusEnum.PaymentPending)
             {
                 Status = ProjectStatusEnum.Finish;
                 FinishAt = DateTime.Now;
@@ -56,12 +61,6 @@ namespace DevFreela.Core.Entities
             {
                 Status = ProjectStatusEnum.Cancelled;
             }
-        }
-
-        public void SetPaymentPending()
-        {
-            Status = ProjectStatusEnum.PaymentPending;
-            FinishAt = null;
         }
 
         public void Update(string title, string description, decimal totalCost)

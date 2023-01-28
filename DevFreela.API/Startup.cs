@@ -1,5 +1,7 @@
+using DevFreela.API.Extensions;
 using DevFreela.API.Filters;
 using DevFreela.Application.Commands.CreateProject;
+using DevFreela.Application.Consumers;
 using DevFreela.Application.Validators;
 using DevFreela.Core.Repositories;
 using DevFreela.Core.Services;
@@ -39,14 +41,11 @@ namespace DevFreela.API
             var connectionString = Configuration.GetConnectionString("DevFreelaCs");
             services.AddDbContext<DevFreelaDbContext>(options => options.UseSqlServer(connectionString));
 
+            services.AddHostedService<PaymentApprovedConsumer>();
+
             services.AddHttpClient();
 
-            services.AddScoped<IProjectRepository, ProjectRepository>();
-            services.AddScoped<ISkillRepository, SkillRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IAuthService, AuthService>();
-
-            services.AddScoped<IPaymentService, PaymentService>();
+            services.AddInfrastructure();
 
             services.AddControllers(options => options.Filters.Add(typeof(ValidationFilter)))
                     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateUserCommandValidator>());

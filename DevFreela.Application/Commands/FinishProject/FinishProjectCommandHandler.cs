@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DevFreela.Application.Commands.FinishProject
 {
-    public class FinishProjectCommandHandler : IRequestHandler<FinishProjectCommand, bool>
+    public class FinishProjectCommandHandler : IRequestHandler<FinishProjectCommand, Unit>
     {
         private readonly IProjectRepository _projectRepository;
         private readonly IPaymentService _paymentService;
@@ -18,22 +18,19 @@ namespace DevFreela.Application.Commands.FinishProject
             this._paymentService = paymentService;
         }
 
-        public async Task<bool> Handle(FinishProjectCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(FinishProjectCommand request, CancellationToken cancellationToken)
         {
             var project = await _projectRepository.GetByIdAsync(request.Id);
 
-            project.Finish();
-
             var paymentInfoDto = new PaymentInfoDTO(request.Id, request.CreditCardNumber, request.Cvv, request.ExpiresAt, request.FullName, project.TotalCost);
 
-            var result = await _paymentService.ProcessPayment(paymentInfoDto);
+            _paymentService.ProcessPayment(paymentInfoDto);
 
-            if (!result)
-                project.SetPaymentPending();
+            project.SetPaymentPending();
 
             await _projectRepository.SaveChangesAsync();
 
-            return result;
+            return Unit.Value;
         }
     }
 }
