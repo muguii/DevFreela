@@ -12,7 +12,7 @@ namespace DevFreela.UnitTests.Application.Queries
     public class GetAllProjectsQueryHandlerTests
     {
         [Fact]
-        public async Task ThreeProjectsExist_Executed_ReturnThreeProjectViewModels() // GIVEN_WHEN_THEN
+        public async Task ThreeProjectsExist_Executed_ReturnThreePaginationProjectViewModels() // GIVEN_WHEN_THEN
         {
             // Arrange
             var paginationProjects = new PaginationResult<Project>()
@@ -32,12 +32,12 @@ namespace DevFreela.UnitTests.Application.Queries
             var getAllProjectsQueryHandler = new GetAllProjectsQueryHandler(projectRepositoryMock.Object);
 
             // Act
-            var projectViewModels = await getAllProjectsQueryHandler.Handle(getAllProjectsQuery, new System.Threading.CancellationToken());
+            var paginationProjectViewModels = await getAllProjectsQueryHandler.Handle(getAllProjectsQuery, new System.Threading.CancellationToken());
 
             // Assert
-            Assert.NotNull(projectViewModels);
-            Assert.NotEmpty(projectViewModels.Data);
-            Assert.Equal(paginationProjects.Data.Count, projectViewModels.Data.Count);
+            Assert.NotNull(paginationProjectViewModels);
+            Assert.NotEmpty(paginationProjectViewModels.Data);
+            Assert.Equal(paginationProjects.Data.Count, paginationProjectViewModels.Data.Count);
 
             projectRepositoryMock.Verify(pr => pr.GetAllAsync(It.IsAny<string>(), It.IsAny<int>()).Result, Times.Once);
         }
