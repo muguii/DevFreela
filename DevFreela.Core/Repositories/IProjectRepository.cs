@@ -1,12 +1,12 @@
 ﻿using DevFreela.Core.Entities;
-using System.Collections.Generic;
+using DevFreela.Core.Models;
 using System.Threading.Tasks;
 
 namespace DevFreela.Core.Repositories
 {
     public interface IProjectRepository
     {
-        Task<List<Project>> GetAllAsync(string query);
+        Task<PaginationResult<Project>> GetAllAsync(string query, int page = 1);
         Task<Project> GetByIdAsync(int id);
         Task<Project> GetDetailsByIdAsync(int id);
         Task AddAsync(Project project);

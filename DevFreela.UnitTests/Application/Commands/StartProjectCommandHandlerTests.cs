@@ -1,13 +1,8 @@
-﻿using DevFreela.Application.Commands.FinishProject;
-using DevFreela.Application.Commands.StartProject;
+﻿using DevFreela.Application.Commands.StartProject;
 using DevFreela.Core.Entities;
 using DevFreela.Core.Enums;
 using DevFreela.Core.Repositories;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
