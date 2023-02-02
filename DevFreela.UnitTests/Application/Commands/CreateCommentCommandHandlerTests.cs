@@ -28,7 +28,7 @@ namespace DevFreela.UnitTests.Application.Commands
             await createCommentCommandHandler.Handle(createCommentCommand, new System.Threading.CancellationToken());
 
             // Assert
-            projectRepositoryMock.Verify(pr => pr.CreateCommentAsync(It.IsAny<ProjectComment>()), Times.Once);
+            projectRepositoryMock.Verify(pr => pr.AddCommentAsync(It.IsAny<ProjectComment>()), Times.Once);
         }
     }
 }

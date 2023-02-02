@@ -1,6 +1,6 @@
 ﻿using DevFreela.Core.Entities;
 using DevFreela.Core.Repositories;
-using DevFreela.Core.Services;
+using DevFreela.Infrastructure.AuthServices;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;

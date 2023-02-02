@@ -43,7 +43,10 @@ namespace DevFreela.Core.Entities
 
         public void SetPaymentPending()
         {
-            Status = ProjectStatusEnum.PaymentPending;
+            if (Status == ProjectStatusEnum.InProgress)
+            {
+                Status = ProjectStatusEnum.PaymentPending;
+            }
         }
 
         public void Finish()

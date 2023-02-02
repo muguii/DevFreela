@@ -1,6 +1,5 @@
-﻿using DevFreela.Core.DTOs;
-using DevFreela.Core.Repositories;
-using DevFreela.Core.Services;
+﻿using DevFreela.Core.Repositories;
+using DevFreela.Infrastructure.Services;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;

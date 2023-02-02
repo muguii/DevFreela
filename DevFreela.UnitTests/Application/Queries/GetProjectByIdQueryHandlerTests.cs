@@ -2,10 +2,6 @@
 using DevFreela.Core.Entities;
 using DevFreela.Core.Repositories;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -21,7 +17,7 @@ namespace DevFreela.UnitTests.Application.Queries
             int projectId = 9;
 
             var projectRepositoryMock = new Mock<IProjectRepository>();
-            projectRepositoryMock.Setup(pr => pr.GetByIdAsync(It.Is<int>(id => id == projectId)).Result).Returns(project);
+            projectRepositoryMock.Setup(pr => pr.GetDetailsByIdAsync(It.Is<int>(id => id == projectId)).Result).Returns(project);
 
             var getProjectByIdQuery = new GetProjectByIdQuery(projectId);
             var getProjectByIdQueryHandler = new GetProjectByIdQueryHandler(projectRepositoryMock.Object);

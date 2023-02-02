@@ -1,4 +1,5 @@
-﻿using DevFreela.Core.Repositories;
+﻿using DevFreela.Application.ViewModels;
+using DevFreela.Core.Repositories;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;

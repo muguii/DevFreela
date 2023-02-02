@@ -1,4 +1,4 @@
-﻿using DevFreela.Core.IntegrationEvents;
+﻿using DevFreela.Application.IntegrationEvents;
 using DevFreela.Core.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -43,7 +43,7 @@ namespace DevFreela.Application.Consumers
             {
                 var paymentApprovedBytes = eventArgs.Body.ToArray();
                 var paymentApprovedJson = Encoding.UTF8.GetString(paymentApprovedBytes);
-                var paymentApproved = JsonSerializer.Deserialize<PaymentApprovedIntegrationEvents>(paymentApprovedJson);
+                var paymentApproved = JsonSerializer.Deserialize<PaymentApprovedIntegrationEvent>(paymentApprovedJson);
 
                 await this.FinishProject(paymentApproved.IdProject);
 

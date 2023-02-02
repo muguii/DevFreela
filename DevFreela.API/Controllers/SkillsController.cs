@@ -2,8 +2,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
-using System.Threading.Tasks;
 
 namespace DevFreela.API.Controllers
 {

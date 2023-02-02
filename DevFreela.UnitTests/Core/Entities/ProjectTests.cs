@@ -47,11 +47,12 @@ namespace DevFreela.UnitTests.Core.Entities
         }
 
         [Fact]
-        public void ProjectIsItStatusInProgress_Executed_ChangeStatusToFinishAndGivenFinishDate() // GIVEN_WHEN_THEN
+        public void ProjectIsItStatusPaymentPending_Executed_ChangeStatusToFinishAndGivenFinishDate() // GIVEN_WHEN_THEN
         {
             // Arrange
             var project = new Project("Titulo", "Descricao", 1, 2, 10000M);
             project.Start();
+            project.SetPaymentPending();
 
             // Act
             project.Finish();

@@ -1,7 +1,7 @@
 ﻿using DevFreela.Application.Commands.CreateUser;
 using DevFreela.Core.Entities;
 using DevFreela.Core.Repositories;
-using DevFreela.Core.Services;
+using DevFreela.Infrastructure.AuthServices;
 using Moq;
 using System;
 using System.Threading.Tasks;

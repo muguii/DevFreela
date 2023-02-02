@@ -1,7 +1,8 @@
 ﻿using Dapper;
-using DevFreela.Core.DTOs;
+using DevFreela.Core.Entities;
 using DevFreela.Core.Repositories;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,16 +21,16 @@ namespace DevFreela.Infrastructure.Persistence.Repositories
             this._connectionString = configuration.GetConnectionString("DevFreelaCs");
         }
 
-        public async Task<List<SkillDTO>> GetAllAsync()
+        public async Task<List<Skill>> GetAllAsync()
         {
+            return await _dbContext.Skills.ToListAsync();
+
             using (var sqlConnection = new SqlConnection(_connectionString))
             {
                 await sqlConnection.OpenAsync();
-                var skills = await sqlConnection.QueryAsync<SkillDTO>("SELECT Id, Description FROM Skills");
+                var skills = await sqlConnection.QueryAsync<Skill>("SELECT Id, Description FROM Skills");
                 return skills.ToList();
             }
-
-            //return _dbContext.Skills.Select(skill => new SkillViewModel(skill.Id, skill.Description)).ToList();
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿using DevFreela.Core.Repositories;
-using DevFreela.Core.Services;
+﻿using DevFreela.Application.ViewModels;
+using DevFreela.Core.Repositories;
+using DevFreela.Infrastructure.AuthServices;
 using MediatR;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 

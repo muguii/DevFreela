@@ -1,5 +1,5 @@
 ﻿using DevFreela.Application.Queries.GetAllSkills;
-using DevFreela.Core.DTOs;
+using DevFreela.Core.Entities;
 using DevFreela.Core.Repositories;
 using Moq;
 using System.Collections.Generic;
@@ -14,13 +14,13 @@ namespace DevFreela.UnitTests.Application.Queries
         public async Task FiveSkillsExist_Executed_ReturnFiveSkillDTOs() // GIVEN_WHEN_THEN
         {
             // Arrange
-            var skills = new List<SkillDTO>()
+            var skills = new List<Skill>()
             {
-                new SkillDTO() { Id = 1, Description = "Skill 1" },
-                new SkillDTO() { Id = 2, Description = "Skill 2" },
-                new SkillDTO() { Id = 3, Description = "Skill 3" },
-                new SkillDTO() { Id = 4, Description = "Skill 4" },
-                new SkillDTO() { Id = 5, Description = "Skill 5" },
+                new Skill("Skill 1"),
+                new Skill("Skill 2"),
+                new Skill("Skill 3"),
+                new Skill("Skill 4"),
+                new Skill("Skill 5"),
             };
 
             var skillRepositoryMock = new Mock<ISkillRepository>();

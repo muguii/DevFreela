@@ -9,7 +9,6 @@ using DevFreela.Application.Queries.GetProjectById;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace DevFreela.API.Controllers
 {
@@ -93,7 +92,7 @@ namespace DevFreela.API.Controllers
         public async Task<IActionResult> Finish(int id, [FromBody] FinishProjectCommand finishProjectCommand)
         {
             finishProjectCommand.Id = id;
-            var result = await _mediator.Send(finishProjectCommand);
+            await _mediator.Send(finishProjectCommand);
 
             return Accepted();
         }

@@ -1,5 +1,4 @@
-﻿using DevFreela.Core.Services;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 
 namespace DevFreela.Infrastructure.MessageBus
 {

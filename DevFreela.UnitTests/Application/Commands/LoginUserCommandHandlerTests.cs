@@ -1,13 +1,9 @@
 ﻿using DevFreela.Application.Commands.LoginUser;
 using DevFreela.Core.Entities;
 using DevFreela.Core.Repositories;
-using DevFreela.Core.Services;
-using Microsoft.AspNetCore.Identity;
+using DevFreela.Infrastructure.AuthServices;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 

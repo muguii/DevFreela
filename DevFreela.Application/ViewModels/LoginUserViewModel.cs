@@ -1,4 +1,4 @@
-﻿namespace DevFreela.Application.Commands.LoginUser
+﻿namespace DevFreela.Application.ViewModels
 {
     public class LoginUserViewModel
     {

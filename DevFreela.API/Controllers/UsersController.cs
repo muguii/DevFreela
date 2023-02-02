@@ -4,7 +4,6 @@ using DevFreela.Application.Queries.GetUserById;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace DevFreela.API.Controllers
 {
@@ -22,7 +21,8 @@ namespace DevFreela.API.Controllers
         [Authorize(Roles = "client,freelancer")]
         public async Task<IActionResult> GetById(int id)
         {
-            return Ok(await _mediator.Send(new GetUserByIdQuery(id)));
+            var user = await _mediator.Send(new GetUserByIdQuery(id));
+            return user == null ? NotFound() : Ok(user);
         }
 
         [HttpPost]
