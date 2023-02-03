@@ -32,5 +32,14 @@ namespace DevFreela.Infrastructure.Persistence.Repositories
                 return skills.ToList();
             }
         }
+
+        public async Task AddSkillFromProject(Project project)
+        {
+            var words = project.Description.Split(' ');
+
+            var skillDescription = $"{project.Id} - {words[words.Length - 1]}";
+
+            await _dbContext.Skills.AddAsync(new Skill(skillDescription));
+        }
     }
 }
