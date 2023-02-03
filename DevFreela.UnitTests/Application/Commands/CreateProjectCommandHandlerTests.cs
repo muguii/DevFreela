@@ -1,6 +1,7 @@
 ﻿using DevFreela.Application.Commands.CreateProject;
 using DevFreela.Core.Entities;
 using DevFreela.Core.Repositories;
+using DevFreela.Infrastructure.Persistence;
 using Moq;
 using System.Threading.Tasks;
 using Xunit;
@@ -13,7 +14,11 @@ namespace DevFreela.UnitTests.Application.Commands
         public async Task InputDataIsOk_Executed_ReturnProjectId() //GIVEN_WHEN_THEN
         {
             // Arrange
+            var unitOfWorkMock = new Mock<IUnitOfWork>();
             var projectRepositoryMock = new Mock<IProjectRepository>();
+
+            unitOfWorkMock.Setup(x => x.Projects).Returns(projectRepositoryMock.Object);
+
 
             var createProjectCommand = new CreateProjectCommand()
             {
@@ -24,7 +29,7 @@ namespace DevFreela.UnitTests.Application.Commands
                 TotalCost = 10000M
             };
 
-            var createProjectCommandHandler = new CreateProjectCommandHandler(projectRepositoryMock.Object);
+            var createProjectCommandHandler = new CreateProjectCommandHandler(unitOfWorkMock.Object);
 
             // Act
             var id = await createProjectCommandHandler.Handle(createProjectCommand, new System.Threading.CancellationToken());

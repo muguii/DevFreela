@@ -1,5 +1,5 @@
 ﻿using DevFreela.Application.IntegrationEvents;
-using DevFreela.Core.Repositories;
+using DevFreela.Infrastructure.Persistence;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
@@ -59,13 +59,13 @@ namespace DevFreela.Application.Consumers
         {
             using (var scoped = _serviceProvider.CreateScope())
             {
-                var projectRepository = scoped.ServiceProvider.GetRequiredService<IProjectRepository>();
+                var unitOfWork = scoped.ServiceProvider.GetRequiredService<IUnitOfWork>();
 
-                var project = await projectRepository.GetByIdAsync(id);
+                var project = await unitOfWork.Projects.GetByIdAsync(id);
 
                 project.Finish();
 
-                await projectRepository.SaveChangesAsync();
+                await unitOfWork.CompleteAsync();
             }
         }
     }

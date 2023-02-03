@@ -2,6 +2,7 @@
 using DevFreela.Core.Entities;
 using DevFreela.Core.Enums;
 using DevFreela.Core.Repositories;
+using DevFreela.Infrastructure.Persistence;
 using Moq;
 using System.Threading.Tasks;
 using Xunit;
@@ -17,11 +18,14 @@ namespace DevFreela.UnitTests.Application.Commands
             int mockId = 9;
             var project = new Project("Titulo", "Descricao", 1, 2, 10000M);
 
+            var unitOfWorkMock = new Mock<IUnitOfWork>();
             var projectRepositoryMock = new Mock<IProjectRepository>();
+
+            unitOfWorkMock.Setup(x => x.Projects).Returns(projectRepositoryMock.Object);
             projectRepositoryMock.Setup(pr => pr.GetByIdAsync(It.Is<int>(id => id == mockId)).Result).Returns(project);
 
             var deleteProjectCommand = new DeleteProjectCommand(mockId);
-            var deleteProjectCommandHandler = new DeleteProjectCommandHandler(projectRepositoryMock.Object);
+            var deleteProjectCommandHandler = new DeleteProjectCommandHandler(unitOfWorkMock.Object);
 
             // Act
             project.Start();
@@ -35,7 +39,7 @@ namespace DevFreela.UnitTests.Application.Commands
             projectRepositoryMock.Verify(pr => pr.GetByIdAsync(It.Is<int>(id => id == mockId)).Result, Times.Once);
             projectRepositoryMock.Verify(pr => pr.GetByIdAsync(It.Is<int>(id => id != mockId)).Result, Times.Never);
 
-            projectRepositoryMock.Verify(pr => pr.SaveChangesAsync(), Times.Once);
+            unitOfWorkMock.Verify(pr => pr.CompleteAsync(), Times.Once);
         }
 
         [Fact]
@@ -45,11 +49,14 @@ namespace DevFreela.UnitTests.Application.Commands
             int mockId = 9;
             var project = new Project("Titulo", "Descricao", 1, 2, 10000M);
 
+            var unitOfWorkMock = new Mock<IUnitOfWork>();
             var projectRepositoryMock = new Mock<IProjectRepository>();
+
+            unitOfWorkMock.Setup(x => x.Projects).Returns(projectRepositoryMock.Object);
             projectRepositoryMock.Setup(pr => pr.GetByIdAsync(It.Is<int>(id => id == mockId)).Result).Returns(project);
 
             var deleteProjectCommand = new DeleteProjectCommand(mockId);
-            var deleteProjectCommandHandler = new DeleteProjectCommandHandler(projectRepositoryMock.Object);
+            var deleteProjectCommandHandler = new DeleteProjectCommandHandler(unitOfWorkMock.Object);
 
             // Act
             await deleteProjectCommandHandler.Handle(deleteProjectCommand, new System.Threading.CancellationToken());
@@ -63,7 +70,7 @@ namespace DevFreela.UnitTests.Application.Commands
             projectRepositoryMock.Verify(pr => pr.GetByIdAsync(It.Is<int>(id => id == mockId)).Result, Times.Once);
             projectRepositoryMock.Verify(pr => pr.GetByIdAsync(It.Is<int>(id => id != mockId)).Result, Times.Never);
 
-            projectRepositoryMock.Verify(pr => pr.SaveChangesAsync(), Times.Once);
+            unitOfWorkMock.Verify(pr => pr.CompleteAsync(), Times.Once);
         }
     }
 }

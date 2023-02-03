@@ -22,7 +22,6 @@ namespace DevFreela.Infrastructure.Persistence.Repositories
         public async Task AddAsync(User user)
         {
             await _dbContext.Users.AddAsync(user);
-            await _dbContext.SaveChangesAsync();
         }
 
         public async Task<User> GetByEmailAndPasswordAsync(string email, string passwordHash)

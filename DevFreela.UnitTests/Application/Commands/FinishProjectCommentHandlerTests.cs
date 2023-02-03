@@ -2,6 +2,7 @@
 using DevFreela.Core.Entities;
 using DevFreela.Core.Enums;
 using DevFreela.Core.Repositories;
+using DevFreela.Infrastructure.Persistence;
 using DevFreela.Infrastructure.Services;
 using Moq;
 using System.Threading.Tasks;
@@ -18,14 +19,16 @@ namespace DevFreela.UnitTests.Application.Commands
             int mockId = 9;
             var project = new Project("Titulo", "Descricao", 1, 2, 10000M);
 
+            var unitOfWorkMock = new Mock<IUnitOfWork>();
             var projectRepositoryMock = new Mock<IProjectRepository>();
             var paymentServiceMock = new Mock<IPaymentService>();
 
+            unitOfWorkMock.Setup(x => x.Projects).Returns(projectRepositoryMock.Object);
             projectRepositoryMock.Setup(pr => pr.GetByIdAsync(It.Is<int>(id => id == mockId)).Result).Returns(project);
             //paymentServiceMock.Setup(ps => ps.ProcessPayment(It.IsAny<PaymentInfoDTO>()).Result).Returns(true);
 
             var finishProjectCommand = new FinishProjectCommand(mockId);
-            var finishProjectCommandHandler = new FinishProjectCommandHandler(projectRepositoryMock.Object, paymentServiceMock.Object);
+            var finishProjectCommandHandler = new FinishProjectCommandHandler(unitOfWorkMock.Object, paymentServiceMock.Object);
 
             // Act
             project.Start();
@@ -39,7 +42,7 @@ namespace DevFreela.UnitTests.Application.Commands
             projectRepositoryMock.Verify(pr => pr.GetByIdAsync(It.Is<int>(id => id == mockId)).Result, Times.Once);
             projectRepositoryMock.Verify(pr => pr.GetByIdAsync(It.Is<int>(id => id != mockId)).Result, Times.Never);
 
-            projectRepositoryMock.Verify(pr => pr.SaveChangesAsync(), Times.Once);
+            unitOfWorkMock.Verify(pr => pr.CompleteAsync(), Times.Once);
         }
 
         [Fact]
@@ -49,14 +52,16 @@ namespace DevFreela.UnitTests.Application.Commands
             int mockId = 9;
             var project = new Project("Titulo", "Descricao", 1, 2, 10000M);
 
+            var unitOfWorkMock = new Mock<IUnitOfWork>();
             var projectRepositoryMock = new Mock<IProjectRepository>();
             var paymentServiceMock = new Mock<IPaymentService>();
 
+            unitOfWorkMock.Setup(x => x.Projects).Returns(projectRepositoryMock.Object);
             projectRepositoryMock.Setup(pr => pr.GetByIdAsync(It.Is<int>(id => id == mockId)).Result).Returns(project);
             //paymentServiceMock.Setup(ps => ps.ProcessPayment(It.IsAny<PaymentInfoDTO>()).Result).Returns(true);
 
             var finishProjectCommand = new FinishProjectCommand(mockId);
-            var finishProjectCommandHandler = new FinishProjectCommandHandler(projectRepositoryMock.Object, paymentServiceMock.Object);
+            var finishProjectCommandHandler = new FinishProjectCommandHandler(unitOfWorkMock.Object, paymentServiceMock.Object);
 
             // Act
             await finishProjectCommandHandler.Handle(finishProjectCommand, new System.Threading.CancellationToken());
@@ -70,7 +75,7 @@ namespace DevFreela.UnitTests.Application.Commands
             projectRepositoryMock.Verify(pr => pr.GetByIdAsync(It.Is<int>(id => id == mockId)).Result, Times.Once);
             projectRepositoryMock.Verify(pr => pr.GetByIdAsync(It.Is<int>(id => id != mockId)).Result, Times.Never);
 
-            projectRepositoryMock.Verify(pr => pr.SaveChangesAsync(), Times.Once);
+            unitOfWorkMock.Verify(pr => pr.CompleteAsync(), Times.Once);
         }
     }
 }

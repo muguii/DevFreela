@@ -2,6 +2,7 @@
 using DevFreela.Core.Entities;
 using DevFreela.Core.Repositories;
 using DevFreela.Infrastructure.AuthServices;
+using DevFreela.Infrastructure.Persistence;
 using Moq;
 using System;
 using System.Threading.Tasks;
@@ -23,16 +24,18 @@ namespace DevFreela.UnitTests.Application.Commands
 
             var loginUserCommand = new LoginUserCommand() { Email = emailMock, Password = passwordMock };
 
+            var unitOfWorkMock = new Mock<IUnitOfWork>();
             var userRepositoryMock = new Mock<IUserRepository>();
             var authServiceMock = new Mock<IAuthService>();
 
+            unitOfWorkMock.Setup(x => x.Users).Returns(userRepositoryMock.Object);
             authServiceMock.Setup(auth => auth.ComputeSha256Hash(It.Is<string>(pw => pw == loginUserCommand.Password))).Returns(passwordHashMock);
             authServiceMock.Setup(auth => auth.GenerateJwtToken(It.Is<string>(email => email == emailMock), It.Is<string>(role => role == user.Role))).Returns(jwtTokenMock);
 
             userRepositoryMock.Setup(ur => ur.GetByEmailAndPasswordAsync(It.Is<string>(email => email == emailMock), It.Is<string>(pwHash => pwHash == passwordHashMock)).Result)
                               .Returns(user);
 
-            var loginUserCommandHandler = new LoginUserCommandHandler(authServiceMock.Object, userRepositoryMock.Object);
+            var loginUserCommandHandler = new LoginUserCommandHandler(unitOfWorkMock.Object, authServiceMock.Object);
 
             // Act
             var loginUserViewModel = await loginUserCommandHandler.Handle(loginUserCommand, new System.Threading.CancellationToken());
@@ -66,15 +69,17 @@ namespace DevFreela.UnitTests.Application.Commands
 
             var loginUserCommand = new LoginUserCommand() { Email = emailMock, Password = passwordMock };
 
+            var unitOfWorkMock = new Mock<IUnitOfWork>();
             var userRepositoryMock = new Mock<IUserRepository>();
             var authServiceMock = new Mock<IAuthService>();
 
+            unitOfWorkMock.Setup(x => x.Users).Returns(userRepositoryMock.Object);
             authServiceMock.Setup(auth => auth.ComputeSha256Hash(It.Is<string>(pw => pw == loginUserCommand.Password))).Returns(passwordHashMock);
 
             userRepositoryMock.Setup(ur => ur.GetByEmailAndPasswordAsync(It.Is<string>(email => email == emailMock), It.Is<string>(pwHash => pwHash == passwordHashMock)))
                               .ReturnsAsync(user);
 
-            var loginUserCommandHandler = new LoginUserCommandHandler(authServiceMock.Object, userRepositoryMock.Object);
+            var loginUserCommandHandler = new LoginUserCommandHandler(unitOfWorkMock.Object, authServiceMock.Object);
 
             // Act
             var loginUserViewModel = await loginUserCommandHandler.Handle(loginUserCommand, new System.Threading.CancellationToken());

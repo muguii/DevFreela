@@ -2,6 +2,7 @@
 using DevFreela.Core.Entities;
 using DevFreela.Core.Enums;
 using DevFreela.Core.Repositories;
+using DevFreela.Infrastructure.Persistence;
 using Moq;
 using System.Threading.Tasks;
 using Xunit;
@@ -17,11 +18,14 @@ namespace DevFreela.UnitTests.Application.Commands
             int mockId = 9;
             var project = new Project("Titulo", "Descricao", 1, 2, 10000M);
 
+            var unitOfWorkMock = new Mock<IUnitOfWork>();
             var projectRepositoryMock = new Mock<IProjectRepository>();
+
+            unitOfWorkMock.Setup(x => x.Projects).Returns(projectRepositoryMock.Object);
             projectRepositoryMock.Setup(pr => pr.GetByIdAsync(It.Is<int>(id => id == mockId)).Result).Returns(project);
 
             var startProjectCommand = new StartProjectCommand(mockId);
-            var startProjectCommandHandler = new StartProjectCommandHandler(projectRepositoryMock.Object);
+            var startProjectCommandHandler = new StartProjectCommandHandler(unitOfWorkMock.Object);
 
             // Act
             await startProjectCommandHandler.Handle(startProjectCommand, new System.Threading.CancellationToken());
@@ -44,11 +48,14 @@ namespace DevFreela.UnitTests.Application.Commands
             int mockId = 9;
             var project = new Project("Titulo", "Descricao", 1, 2, 10000M);
 
+            var unitOfWorkMock = new Mock<IUnitOfWork>();
             var projectRepositoryMock = new Mock<IProjectRepository>();
+
+            unitOfWorkMock.Setup(x => x.Projects).Returns(projectRepositoryMock.Object);
             projectRepositoryMock.Setup(pr => pr.GetByIdAsync(It.Is<int>(id => id == mockId)).Result).Returns(project);
 
             var startProjectCommand = new StartProjectCommand(mockId);
-            var startProjectCommandHandler = new StartProjectCommandHandler(projectRepositoryMock.Object);
+            var startProjectCommandHandler = new StartProjectCommandHandler(unitOfWorkMock.Object);
 
             // Act
             project.Start();

@@ -2,6 +2,7 @@
 using DevFreela.Core.Entities;
 using DevFreela.Core.Repositories;
 using DevFreela.Infrastructure.AuthServices;
+using DevFreela.Infrastructure.Persistence;
 using Moq;
 using System;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace DevFreela.UnitTests.Application.Commands
             // Arrange
             var passwordHash = new Guid().ToString();
 
+            var unitOfWorkMock = new Mock<IUnitOfWork>();
             var userRepositoryMock = new Mock<IUserRepository>();
             var authServiceMock = new Mock<IAuthService>();
 
@@ -29,9 +31,10 @@ namespace DevFreela.UnitTests.Application.Commands
                 Role = "client"
             };
 
+            unitOfWorkMock.Setup(x => x.Users).Returns(userRepositoryMock.Object);
             authServiceMock.Setup(auth => auth.ComputeSha256Hash(It.Is<string>(pw => pw == createUserCommand.Password))).Returns(passwordHash);
 
-            var createUserCommandHandler = new CreateUserCommandHandler(userRepositoryMock.Object, authServiceMock.Object);
+            var createUserCommandHandler = new CreateUserCommandHandler(unitOfWorkMock.Object, authServiceMock.Object);
 
             // Act
             int userId = await createUserCommandHandler.Handle(createUserCommand, new System.Threading.CancellationToken());

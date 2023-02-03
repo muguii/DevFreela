@@ -1,6 +1,7 @@
 ﻿using DevFreela.Application.Commands.UpdateProject;
 using DevFreela.Core.Entities;
 using DevFreela.Core.Repositories;
+using DevFreela.Infrastructure.Persistence;
 using Moq;
 using System.Threading.Tasks;
 using Xunit;
@@ -22,11 +23,14 @@ namespace DevFreela.UnitTests.Application.Commands
 
             var project = new Project(mockTitle, mockDescription, mockClientId, mockFreelancerId, mockTotalCost);
 
+            var unitOfWorkMock = new Mock<IUnitOfWork>();
             var projectRepositoryMock = new Mock<IProjectRepository>();
+
+            unitOfWorkMock.Setup(x => x.Projects).Returns(projectRepositoryMock.Object);
             projectRepositoryMock.Setup(pr => pr.GetByIdAsync(It.Is<int>(id => id == mockId)).Result).Returns(project);
 
             var updateProjectCommand = new UpdateProjectCommand(mockId, "Novo Titulo", "Nova Descricao", 500M);
-            var updateProjectCommandHandler = new UpdateProjectCommandHandler(projectRepositoryMock.Object);
+            var updateProjectCommandHandler = new UpdateProjectCommandHandler(unitOfWorkMock.Object);
 
             // Act
             await updateProjectCommandHandler.Handle(updateProjectCommand, new System.Threading.CancellationToken());
@@ -41,7 +45,7 @@ namespace DevFreela.UnitTests.Application.Commands
             projectRepositoryMock.Verify(pr => pr.GetByIdAsync(It.Is<int>(id => id == mockId)).Result, Times.Once);
             projectRepositoryMock.Verify(pr => pr.GetByIdAsync(It.Is<int>(id => id != mockId)).Result, Times.Never);
 
-            projectRepositoryMock.Verify(pr => pr.SaveChangesAsync(), Times.Once);
+            unitOfWorkMock.Verify(pr => pr.CompleteAsync(), Times.Once);
         }
     }
 }
